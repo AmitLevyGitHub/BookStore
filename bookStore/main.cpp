@@ -1,15 +1,16 @@
-//
-//  main.cpp
-//  bookStore
-//
-//  Created by Amit Levy on 26/07/2018.
-//  Copyright © 2018 Amit Levy. All rights reserved.
-//
-
 #include <iostream>
+#include "Database.hpp"
+#include "books.hpp"
+#include "employees.hpp"
+#include "supliers.hpp"
+#include "customers.hpp"
+
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+    
+    Database &db = Database::getInstance();
+    cout << books::count();
+    //    books* book;
+//    book->inventory();
+    
 }

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		15D643E9210A4A500018A25D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D643E8210A4A500018A25D /* main.cpp */; };
+		15D643F2210A4CD80018A25D /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D643F0210A4CD80018A25D /* Database.cpp */; };
+		15D643F5210B1D260018A25D /* books.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D643F3210B1D260018A25D /* books.cpp */; };
+		15D643F8210B1D380018A25D /* employees.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D643F6210B1D380018A25D /* employees.cpp */; };
+		15D643FB210B1D490018A25D /* supliers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D643F9210B1D490018A25D /* supliers.cpp */; };
+		15D643FE210B1D5D0018A25D /* customers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15D643FC210B1D5D0018A25D /* customers.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +30,16 @@
 /* Begin PBXFileReference section */
 		15D643E5210A4A500018A25D /* bookStore */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bookStore; sourceTree = BUILT_PRODUCTS_DIR; };
 		15D643E8210A4A500018A25D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		15D643F0210A4CD80018A25D /* Database.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Database.cpp; sourceTree = "<group>"; };
+		15D643F1210A4CD80018A25D /* Database.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Database.hpp; sourceTree = "<group>"; };
+		15D643F3210B1D260018A25D /* books.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = books.cpp; sourceTree = "<group>"; };
+		15D643F4210B1D260018A25D /* books.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = books.hpp; sourceTree = "<group>"; };
+		15D643F6210B1D380018A25D /* employees.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = employees.cpp; sourceTree = "<group>"; };
+		15D643F7210B1D380018A25D /* employees.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = employees.hpp; sourceTree = "<group>"; };
+		15D643F9210B1D490018A25D /* supliers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = supliers.cpp; sourceTree = "<group>"; };
+		15D643FA210B1D490018A25D /* supliers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = supliers.hpp; sourceTree = "<group>"; };
+		15D643FC210B1D5D0018A25D /* customers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = customers.cpp; sourceTree = "<group>"; };
+		15D643FD210B1D5D0018A25D /* customers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = customers.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +73,16 @@
 			isa = PBXGroup;
 			children = (
 				15D643E8210A4A500018A25D /* main.cpp */,
+				15D643F1210A4CD80018A25D /* Database.hpp */,
+				15D643F0210A4CD80018A25D /* Database.cpp */,
+				15D643F4210B1D260018A25D /* books.hpp */,
+				15D643F3210B1D260018A25D /* books.cpp */,
+				15D643F7210B1D380018A25D /* employees.hpp */,
+				15D643F6210B1D380018A25D /* employees.cpp */,
+				15D643FA210B1D490018A25D /* supliers.hpp */,
+				15D643F9210B1D490018A25D /* supliers.cpp */,
+				15D643FD210B1D5D0018A25D /* customers.hpp */,
+				15D643FC210B1D5D0018A25D /* customers.cpp */,
 			);
 			path = bookStore;
 			sourceTree = "<group>";
@@ -118,7 +143,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15D643F2210A4CD80018A25D /* Database.cpp in Sources */,
+				15D643FE210B1D5D0018A25D /* customers.cpp in Sources */,
+				15D643F8210B1D380018A25D /* employees.cpp in Sources */,
 				15D643E9210A4A500018A25D /* main.cpp in Sources */,
+				15D643FB210B1D490018A25D /* supliers.cpp in Sources */,
+				15D643F5210B1D260018A25D /* books.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,9 +206,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-lmysqlcppconn",
+					"-lboost_date_time",
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -228,8 +264,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"-lmysqlcppconn",
+					"-lboost_date_time",
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;
