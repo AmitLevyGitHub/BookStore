@@ -1,10 +1,10 @@
-#ifndef customers_hpp
-#define customers_hpp
+#ifndef suppliers_hpp
+#define suppliers_hpp
 
-#include <stdio.h>
 #include <iostream>
 #include "Database.hpp"
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <stdio.h>
 #include <string.h>
 
 #define CON Database &db = Database::getInstance(); Connection *con = db.getConnection();
@@ -13,14 +13,14 @@ using namespace std;
 using namespace boost::posix_time;
 using namespace boost::gregorian;
 
-class customers {
+class suppliers {
     
 public:
     static int count ();
-    static void customerList();
-    static void howManyBooksForCustomer();
-    static void CustomerWhoPurchasedTheMost();
-    static void newCustomers();
+    static void SupplierList();
+    static void searchingSupplierByBookName();
+    static void topSupllier();
+    static void totalOrders();
+    
 };
-
-#endif
+#endif /* suplier_hpp */

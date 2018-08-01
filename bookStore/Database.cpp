@@ -26,7 +26,8 @@ Database::Database() : driver(get_driver_instance()) {
                           "Book_Language varchar(30), "
                           "Author varchar(30), "
                           "Publishing_Year varchar(4), "
-                          "PRIMARY KEY (ISBN) "
+                          "PRIMARY KEY (ISBN), "
+                          "KEY (Book_Name) "
                           ")");
             stmt->execute("CREATE TABLE IF NOT EXISTS TheStoreBooks ( "
                           "ISBN varchar(13), "
@@ -52,7 +53,7 @@ Database::Database() : driver(get_driver_instance()) {
                           ");");
             stmt->execute("CREATE TABLE IF NOT EXISTS Suppliers ( "
                           "Supp_ID varchar(10), "
-                          "Supp_Name varchar(30), "
+                          "Supp_Name varchar(30) not null, "
                           "Incomes_From_Store float, "
                           "Added_To_System_Date date, "
                           "PRIMARY KEY (Supp_ID) "
@@ -64,46 +65,46 @@ Database::Database() : driver(get_driver_instance()) {
                           "FOREIGN KEY (Supp_ID) REFERENCES Suppliers (Supp_ID) "
                           ");");
             stmt->execute("CREATE TABLE IF NOT EXISTS SuppliersBooks ( "
-                          "Supp_ID varchar(30), "
+                          "Supp_ID varchar(10), "
                           "ISBN varchar(13), "
                           "Amount int, "
                           "Price float, "
-                          "PRIMARY KEY (Supp_ID , ISBN), "
+                          "PRIMARY KEY (Supp_ID,ISBN), "
                           "FOREIGN KEY (ISBN) REFERENCES Books (ISBN), "
-                          "FOREIGN KEY (Supp_ID) REFERENCES Suppliers(Supp_ID) "
+                          "FOREIGN KEY (Supp_ID) REFERENCES Suppliers (Supp_ID) "
                           ");");
             stmt->execute("CREATE TABLE IF NOT EXISTS Customers ( "
-                          "Customer_ID varchar(30), "
+                          "Customer_ID varchar(10), "
                           "Customer_Name varchar(30), "
                           "Total_Money_Spent_On_Books FLOAT, "
                           "Added_To_System_Date date, "
                           "PRIMARY KEY (Customer_ID) "
                           ");");
-            stmt->execute("CREATE TABLE IF NOT EXISTS CustomersOrders ( "
-                          "Order_Number varchar(20), "
-                          "ISBN varchar(13), "
-                          "Amount INT, "
+            stmt->execute("CREATE TABLE IF NOT EXISTS Orders ( "
+                          "Order_Number INT UNSIGNED AUTO_INCREMENT, "
                           "Customer_ID varchar(10), "
                           "Emp_ID varchar(10), "
-                          "Order_Status ENUM ('ordered', 'arrived', 'messageSent', 'Purchased' , 'Cancelled'), "
+                          "Order_Status ENUM ('Ordered', 'Arrived', 'messageSent', 'Purchased' , 'Cancelled'), "
                           "Order_Date date, "
                           "Total_Price FLOAT, "
-                          "PRIMARY KEY (Order_Number , ISBN), "
-                          "FOREIGN KEY (ISBN) REFERENCES Books(ISBN), "
+                          "PRIMARY KEY (Order_Number), "
                           "FOREIGN KEY (Customer_ID) REFERENCES Customers(Customer_ID), "
                           "FOREIGN KEY (Emp_ID) REFERENCES Employees(Emp_ID) "
                           ");");
-            stmt->execute("CREATE TABLE IF NOT EXISTS CustomersBooks ( "
-                          "Customer_ID varchar(30), "
-                          "Order_Number varchar(10), "
-                          "ISBN varchar(30), "
-                          "Amount_Of_Books int, "
-                          "Price_PerOneBook_After_Discount FLOAT, "
-                          "PRIMARY KEY (Customer_ID, ISBN, Order_Number), "
-                          "FOREIGN KEY (Customer_ID) REFERENCES Customers(Customer_ID), "
-                          "FOREIGN KEY (ISBN) REFERENCES Books(ISBN), "
-                          "FOREIGN KEY (Order_Number) REFERENCES CustomersOrders(Order_Number) "
+            stmt->execute("CREATE TABLE IF NOT EXISTS OrdersContent ( "
+                          "Order_Number INT UNSIGNED AUTO_INCREMENT,"
+                          "Book_Name varchar(30) not null,"
+                          "FOREIGN KEY (Order_Number) REFERENCES Orders(Order_Number),"
+                          "FOREIGN KEY (Book_Name) REFERENCES Books(Book_Name),"
+                          "PRIMARY KEY (Order_Number,Book_Name)"
                           ");");
+            stmt->execute("CREATE TABLE  IF NOT EXISTS Suppliment("
+                          "Supp_ID varchar (9),"
+                          "ISBN varchar (13),"
+                          "supplied INT,"
+                          "Order_Date date,"
+                          "FOREIGN KEY (Supp_ID) REFERENCES Suppliers (Supp_ID),"
+                          "PRIMARY KEY (Supp_ID,ISBN));");
             stmt->execute("CREATE TABLE IF NOT EXISTS CustomersPhones ( "
                           "Customer_ID varchar(30), "
                           "Phone_number varchar(14), "
@@ -118,8 +119,10 @@ Database::Database() : driver(get_driver_instance()) {
             addEmployeesPhones();
             addSuppliers();
             addSuppliersPhones();
-            
-            
+            addOrders();
+            addSuppliersBooks();
+            addOrdersDetails();
+            addSuppliment();
             
             delete stmt;
         }
@@ -265,25 +268,26 @@ void Database::addSuppliers(){
     con->setSchema(DB_NAME);
     Statement *stmt = con->createStatement();
     stmt->execute("insert into Suppliers(Supp_ID,Supp_Name,Incomes_From_Store,Added_To_System_Date)"
-                  "VALUES('6256327977', 'Harvey Winkle', 539, '2015-12-18'),"
-                  "('721276415', 'Giralda Boddice', 7989, '2015-01-26'),"
-                  "('839113642', 'Winn Shutte', 3453, '2014-09-01'),"
+                  "VALUES('625632797', 'Harvey Winkle', 1200, '2016-12-18'),"
+                  "('721276415', 'Giralda Boddice', 1950, '2017-01-26'),"
+                  "('839113642', 'Winn Shutte', 400, '2016-09-01'),"
                   "('349686016', 'Seth Joesbury', 3042, '2017-06-22'),"
-                  "('288423058', 'Scarlett Dibb', 2231, '2015-01-09'),"
-                  "('015129428', 'Shari Besant', 8600, '2015-08-23'),"
-                  "('631483430', 'Val Standrin', 1546, '2017-11-15'),"
-                  "('412616694', 'Lari Bartolomeu', 4023, '2017-06-22'),"
-                  "('809995153', 'Mommy Chilcott', 8893, '2018-03-21'),"
-                  "('124425982', 'Grover Goozee', 9082, '2016-02-24'),"
-                  "('935903924', 'Flossi Ricciardiello', 8242, '2017-08-10');");
+                  "('288423058', 'Scarlett Dibb', 600, '2016-01-09'),"
+                  "('015129428', 'Shari Besant', 1080, '2016-08-23'),"
+                  "('631483430', 'Val Standrin', 480, '2017-11-15'),"
+                  "('412616694', 'Lari Bartolomeu', 0, '2017-06-22'),"
+                  "('809995153', 'Mommy Chilcott', 1080, '2018-03-21'),"
+                  "('124425982', 'Grover Goozee', 0, '2016-02-24'),"
+                  "('935903924', 'Flossi Ricciardiello', 1170, '2017-08-10');");
 }
+
 
 void Database::addSuppliersPhones(){
     Connection *con = driver->connect(connection_properties);
     con->setSchema(DB_NAME);
     Statement *stmt = con->createStatement();
     stmt->execute("insert into SuppliersPhones(Supp_ID,phone_number)"
-                  "VALUES('6256327977','(251) 9236825'),"
+                  "VALUES('625632797','(251) 9236825'),"
                   "('721276415','(780) 7426268'),"
                   "('839113642','(992) 7678403'),"
                   "('349686016','(878) 3950699'),"
@@ -295,4 +299,100 @@ void Database::addSuppliersPhones(){
                   "('809995153','(933) 5318535'),"
                   "('124425982','(893) 6377544'),"
                   "('935903924','(808) 3284963');");
+}
+
+void Database::addOrders(){
+    Connection *con = driver->connect(connection_properties);
+    con->setSchema(DB_NAME);
+    Statement *stmt = con->createStatement();
+    stmt->execute("insert into Orders(Customer_ID,Emp_ID,Order_Status,Order_Date,Total_Price)"
+                  "VALUES('201954912','382224948','ordered','2017-06-27','557'),"
+                  "('401795834','079727787','Ordered','2017-12-02','1625'),"
+                  "('503860353','569422207','MessageSent','2017-05-19','852'),"
+                  "('503860353','499263433','Purchased','2016-12-17','1221'),"
+                  "('201943842','499263433','Arrived','2017-06-22','630'),"
+                  "('302993813','499263433','Cancelled','2017-04-07','904'),"
+                  "('561038427','403252037','Purchased','2018-05-14','493'),"
+                  "('561038427','823213354','Purchased','2017-11-27','847'),"
+                  "('353941513','582039536','Arrived','2016-09-11','1334'),"
+                  "('491756877','582039536','Ordered','2018-06-24','671'),"
+                  "('491756877','382224948','MessageSent','2018-05-22','1256'),"
+                  "('201764949','382224948','Ordered','2017-03-03','1112'),"
+                  "('354095689','652444153','Ordered','2018-03-02','239');");
+}
+
+
+void Database::addSuppliersBooks(){
+    Connection *con = driver->connect(connection_properties);
+    con->setSchema(DB_NAME);
+    Statement *stmt = con->createStatement();
+    stmt->execute("insert into SuppliersBooks(Supp_ID,ISBN,Amount,Price)"
+                  "VALUES('625632797','552547148-5','50','20'),"
+                  "('625632797','623753193-9','130','50'),"
+                  "('625632797','867529509-X','300','50'),"
+                  "('721276415','161913965-0','240','40'),"
+                  "('721276415','119639776-7','240','30'),"
+                  "('721276415','095254332-X','190','15'),"
+                  "('839113642','561800464-X','455','40'),"
+                  "('349686016','867529509-X','95','45'),"
+                  "('288423058','089179767-X','85','75'),"
+                  "('288423058','250024852-6','85','40'),"
+                  "('015129428','867529509-X','100','48'),"
+                  "('015129428','600789272-7','140','20'),"
+                  "('631483430','623753193-9','230','48'),"
+                  "('631483430','161913965-0','275','45'),"
+                  "('412616694','561800464-X','135','34'),"
+                  "('412616694','754692835-4','460','45'),"
+                  "('809995153','374822624-1','250','30'),"
+                  "('809995153','867529509-X','120','52'),"
+                  "('124425982','623753193-9','235','50'),"
+                  "('124425982','578859010-8','350','45'),"
+                  "('935903924','089179767-X','110','70'),"
+                  "('935903924','374822624-1','110','30'),"
+                  "('935903924','888147660-6','300','35'),"
+                  "('935903924','161913965-0','210','55');");
+}
+
+void Database::addOrdersDetails(){
+    Connection *con = driver->connect(connection_properties);
+    con->setSchema(DB_NAME);
+    Statement *stmt = con->createStatement();
+    stmt->execute("insert into OrdersContent(Order_Number,Book_Name)"
+                  "VALUES('1','Songs With A Hat'),"
+                  "('1','Medic Of The Banished'),"
+                  "('1','Armies Of Agony'),"
+                  "('1','Mutants Asking Questions'),"
+                  "('2','Union Of The Stockades'),"
+                  "('3','Medic Of The Banished'),"
+                  "('4','Songs With A Hat'),"
+                  "('5','Mutants Asking Questions'),"
+                  "('6','Union Of The Stockades'),"
+                  "('7','Mutants Asking Questions'),"
+                  "('7','Medic Of The Banished'),"
+                  "('8','Careful Of Nature'),"
+                  "('9','Mutants Asking Questions'),"
+                  "('9','Lust Of Hell'),"
+                  "('10','Medic Of The Banished'),"
+                  "('11','Lust Of Hell'),"
+                  "('11','Careful Of Nature'),"
+                  "('12','Mutants Asking Questions');");
+}
+
+void Database::addSuppliment(){
+    Connection *con = driver->connect(connection_properties);
+    con->setSchema(DB_NAME);
+    Statement *stmt = con->createStatement();
+    stmt->execute("insert into Suppliment(Supp_ID,ISBN,supplied,Order_Date)"
+                  "VALUES('625632797','552547148-5',10,'2017-06-09'),"
+                  "('721276415','095254332-X',50,'2018-05-09'),"
+                  "('839113642','561800464-X',10,'2018-05-02'),"
+                  "('349686016','867529509-X',10,'2017-04-17'),"
+                  "('288423058','250024852-6',15,'2016-08-19'),"
+                  "('015129428','600789272-7',30,'2017-09-22'),"
+                  "('631483430','623753193-9',10,'2017-03-22'),"
+                  "('412616694','561800464-X',12,'2017-02-17'),"
+                  "('809995153','374822624-1',10,'2017-09-27'),"
+                  "('809995153','867529509-X',15,'2016-10-06'),"
+                  "('124425982','623753193-9',10,'2016-10-31'),"
+                  "('935903924','374822624-1',25,'2018-01-19');");
 }

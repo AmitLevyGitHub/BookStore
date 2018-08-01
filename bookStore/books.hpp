@@ -15,31 +15,18 @@ using namespace boost::gregorian;
 
 class books {
     
-    string ISBN;
-    string name;
-    string category;
-    string language;
-    string author;
-    date publishing_date;
-    
 public:
     
-    static int count (){
-        CON;
-        int counter = 0;
-        if (con) {
-            Statement *stmt = con->createStatement();
-            ResultSet *rset = stmt->executeQuery("SELECT count(*) as cnt from TheStoreBooks");
-            rset->first();
-            counter = rset->getInt("cnt");
-            delete con;
-            delete rset;
-            delete stmt;
-        }
-        return counter;
-    }
-    void inventory ();
-    books* geByName(string name);
+    static int count ();
+    static void inventory ();
+    static void orders();
+    static void ordersByDate();
+    static void DiscuntedBooks();
+    static void bookSearching();
+    static void booksSince();
+    static void OrdersAmount();
+    static void PhurchacesAmount();
+    static void top10Books();
 };
 
 

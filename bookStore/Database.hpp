@@ -43,6 +43,10 @@ public:
     void addEmployeesPhones();
     void addSuppliers();
     void addSuppliersPhones();
+    void addOrders();
+    void addSuppliersBooks();
+    void addOrdersDetails();
+    void addSuppliment();
 };
 
 
