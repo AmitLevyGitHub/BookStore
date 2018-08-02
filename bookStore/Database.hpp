@@ -47,6 +47,7 @@ public:
     void addSuppliersBooks();
     void addOrdersDetails();
     void addSuppliment();
+    void printMenu();
 };
 
 

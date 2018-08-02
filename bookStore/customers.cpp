@@ -43,7 +43,7 @@ void customers:: howManyBooksForCustomer(){
         PreparedStatement *pstmt1 = con->prepareStatement("CREATE TABLE IF NOT EXISTS temp3 AS SELECT * FROM Orders natural join OrdersContent;");
         pstmt1->execute();
         
-        PreparedStatement *pstmt = con->prepareStatement("SELECT * FROM temp3 natural join Customers WHERE Customer_Name=? AND Order_Date>? AND Order_Status!='Cancelled' ");
+        PreparedStatement *pstmt = con->prepareStatement("SELECT * FROM temp3 natural join Customers WHERE Customer_Name=? AND Order_Date>? AND Order_Status!='Cancelled'");
         
         cout << "Please Enter Customer Name > ";
         string temp;
@@ -115,4 +115,36 @@ void customers::newCustomers(){
             cout << "\nInvalid Input Or No Customers Joined Since " << Date << "\n" << endl;
     }
 }
+
+void customers::discountForCustomer(){
+    CON;
+    if (con) {
+        
+         string CustomerName, Date;
+        
+        PreparedStatement *pstmt = con->prepareStatement("SELECT * FROM Customers WHERE Customer_Name=? AND Added_To_System_Date>=?");
+        
+        cout << "Please Enter Customer Name > ";
+        string temp;
+        getline(cin, temp);
+        getline(cin, CustomerName);
+        pstmt->setString(1, CustomerName);
+        cout << "Please Enter Start Date in the following format- YYYY-MM-DD > ";
+        getline(cin, Date);
+        
+        pstmt->setString(2, Date);
+        ResultSet *rset = pstmt->executeQuery();
+        
+        
+        if (rset->first()){
+            float dis = stof(rset->getString("Total_discount_recived"));
+            dis*=100;
+            cout << "\n" << CustomerName << " Recived " <<
+            dis << "% Discount since "  << Date << "\n" << endl;
+        }
+        else
+            cout << "\nInvalid Input Or No Discount for Customer Since " << Date << "\n" << endl;
+    }
+}
+
 

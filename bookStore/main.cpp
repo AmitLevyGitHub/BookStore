@@ -15,28 +15,9 @@ int main(int argc, const char * argv[]) {
     "What would you like to do?" << endl;
     
     while (1) {
+        db.printMenu();
         int choise;
-        cout << "- In order to watch inventory, press 1" << endl
-        << "- In order to watch Open Orders, press 2" << endl
-        << "- In order to watch Customer List, press 3" << endl
-        << "- In order to watch Supplier List, press 4" << endl
-        << "- In order to watch Orders By Date, press 5" << endl
-        << "- In order to watch All the Discounted Books, press 6" << endl
-        << "- In order to search for specific Book, press 7" << endl
-        << "- In order to search for suppliers of specific, press 8" << endl
-        << "- In order to check how many copys of a specific book were sold since a specific date, press 9" << endl
-        << "- In order to check how many Books a specific Customer Purchased since a specific date, press 10" << endl
-        << "- In order to check how Who is the Customer who Purchased the most since a specific date, press 11" << endl
-        << "- In order to watch details of the Supplier who supplied the most books since a specific date, press 12" << endl
-        << "- In order to check Amount of Orders for specific range of dates, press 13" << endl
-        << "- In order to check Amount of Purchases for specific range of dates, press 14" << endl
-        << "- In order to check Amount of new Customerss for specific range of dates, press 17" << endl
-        << "- In order to check purchases from specific Supplier in a specific range of dates, press 18" << endl
-        << "- In order to check Sales for specific employee in a specific range of dates, press 19" << endl
-        << "- In order to watch top 10 Books in a specific range of dates, press 20" << endl
-        << "- For Exit, press 99" << endl;
         cin >> choise;
-        
         switch (choise) {
             case 1:
                 books::inventory();
@@ -77,6 +58,9 @@ int main(int argc, const char * argv[]) {
                 break;
             case 14:
                 books::PhurchacesAmount();
+                break;
+            case 15:
+                customers::discountForCustomer();
                 break;
             case 17:
                 customers::newCustomers();

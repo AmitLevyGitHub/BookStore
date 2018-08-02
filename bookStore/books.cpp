@@ -89,6 +89,7 @@ void books::DiscuntedBooks(){
         Statement *stmt = con->createStatement();
         ResultSet *rset = stmt->executeQuery("SELECT Book_Name,Category,Book_Language,Author,Publishing_Year,price,Global_Discount FROM Books INNER JOIN TheStoreBooks ON TheStoreBooks.ISBN=Books.ISBN WHERE Global_Discount>0;");
         cout << "\tBook Name\t\t\t" << "Category\t\t" << "Language\t\t" << "Autor\t\t" << "Publishing Year\t\t" << "Discount\t\t" << "Price After Discount" << endl;
+        
         while (rset->next()){
             float dis = stof(rset->getString(7));
             float price = stof(rset->getString(6));

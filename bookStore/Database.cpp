@@ -76,7 +76,9 @@ Database::Database() : driver(get_driver_instance()) {
             stmt->execute("CREATE TABLE IF NOT EXISTS Customers ( "
                           "Customer_ID varchar(10), "
                           "Customer_Name varchar(30), "
-                          "Total_Money_Spent_On_Books FLOAT, "
+                          "Expenses FLOAT, "
+                          "Expenses_This_Year INT, "
+                          "Total_discount_recived FLOAT,"
                           "Added_To_System_Date date, "
                           "PRIMARY KEY (Customer_ID) "
                           ");");
@@ -111,7 +113,7 @@ Database::Database() : driver(get_driver_instance()) {
                           "PRIMARY KEY (Customer_ID,Phone_number), "
                           "FOREIGN KEY (Customer_ID) REFERENCES Customers(Customer_ID) "
                           ")");
-            addBooksToWorld();
+            addBooksToWorld();      // YANIV IS THE KING HE IS AMAZING YES YES YES
             addBooksToStore();
             addCustomers();
             addCustomersPhones();
@@ -195,17 +197,17 @@ void Database::addCustomers(){
     Connection *con = driver->connect(connection_properties);
     con->setSchema(DB_NAME);
     Statement *stmt = con->createStatement();
-    stmt->execute("insert into Customers(Customer_ID,Customer_Name,Total_Money_Spent_On_Books,Added_To_System_Date)"
-                  "VALUES('201764949','Erik Hounsham',180,'2015-07-09'),"
-                  "('201954912','Niels Strelitzer',819,'2017-02-21'),"
-                  "('401795834','Cindelyn Labeuil',955,'1998-04-01'),"
-                  "('503860353','Collete Thomerson',1990,'2004-12-15'),"
-                  "('201943842','Andrea Ozintsev',485,'2016-01-25'),"
-                  "('302993813','Pearla McOrkill',1843,'2011-12-21'),"
-                  "('561038427','Chadd Kloska',1300,'2011-07-08'),"
-                  "('354095689','Geri Tuftin',1663,'2015-11-25'),"
-                  "('353941513','Danny Fourcade',55,'2010-02-07'),"
-                  "('491756877','Tamara Perassi',998,'2009-08-03');");
+    stmt->execute("insert into Customers(Customer_ID,Customer_Name,Expenses,Expenses_This_Year,Total_discount_recived,Added_To_System_Date)"
+                  "VALUES('201764949','Erik Hounsham','3000','1200','0.2','2015-07-09'),"
+                  "('201954912','Niels Strelitzer','819','500','0','2017-02-21'),"
+                  "('401795834','Cindelyn Labeuil','955','800','0','2018-04-01'),"
+                  "('503860353','Collete Thomerson','1990','1000','0.1','2016-12-15'),"
+                  "('201943842','Andrea Ozintsev','485','200','0','2017-01-25'),"
+                  "('302993813','Pearla McOrkill','1843','1300','0.1','2015-12-21'),"
+                  "('561038427','Chadd Kloska','1300','940','0','2016-07-08'),"
+                  "('354095689','Geri Tuftin','1663','1340','0.1','2015-11-25'),"
+                  "('353941513','Danny Fourcade','55','55','0','2018-02-07'),"
+                  "('491756877','Tamara Perassi','1998','1398','0.1','2015-08-03');");
 }
     
 void Database::addCustomersPhones(){
@@ -314,9 +316,9 @@ void Database::addOrders(){
                   "('302993813','499263433','Cancelled','2017-04-07','904'),"
                   "('561038427','403252037','Purchased','2018-05-14','493'),"
                   "('561038427','823213354','Purchased','2017-11-27','847'),"
-                  "('353941513','582039536','Arrived','2016-09-11','1334'),"
+                  "('353941513','582039536','Arrived','2018-09-11','1334'),"
                   "('491756877','582039536','Ordered','2018-06-24','671'),"
-                  "('491756877','382224948','MessageSent','2018-05-22','1256'),"
+                  "('401795834','382224948','MessageSent','2018-05-22','1256'),"
                   "('201764949','382224948','Ordered','2017-03-03','1112'),"
                   "('354095689','652444153','Ordered','2018-03-02','239');");
 }
@@ -395,4 +397,27 @@ void Database::addSuppliment(){
                   "('809995153','867529509-X',15,'2016-10-06'),"
                   "('124425982','623753193-9',10,'2016-10-31'),"
                   "('935903924','374822624-1',25,'2018-01-19');");
+}
+
+void Database:: printMenu(){
+    cout << "- In order to watch inventory, press 1" << endl
+    << "- In order to watch Open Orders, press 2" << endl
+    << "- In order to watch Customer List, press 3" << endl
+    << "- In order to watch Supplier List, press 4" << endl
+    << "- In order to watch Orders By Date, press 5" << endl
+    << "- In order to watch All the Discounted Books, press 6" << endl
+    << "- In order to search for specific Book, press 7" << endl
+    << "- In order to search for suppliers of specific, press 8" << endl
+    << "- In order to check how many copys of a specific book were sold since a specific date, press 9" << endl
+    << "- In order to check how many Books a specific Customer Purchased since a specific date, press 10" << endl
+    << "- In order to check how Who is the Customer who Purchased the most since a specific date, press 11" << endl
+    << "- In order to watch details of the Supplier who supplied the most books since a specific date, press 12" << endl
+    << "- In order to check Amount of Orders for specific range of dates, press 13" << endl
+    << "- In order to check Amount of Purchases for specific range of dates, press 14" << endl
+    << "- In order to check what is the discount a customer got since a specific date, press 15" << endl
+    << "- In order to check Amount of new Customerss for specific range of dates, press 17" << endl
+    << "- In order to check purchases from specific Supplier in a specific range of dates, press 18" << endl
+    << "- In order to check Sales for specific employee in a specific range of dates, press 19" << endl
+    << "- In order to watch top 10 Books in a specific range of dates, press 20" << endl
+    << "- For Exit, press 99" << endl;
 }

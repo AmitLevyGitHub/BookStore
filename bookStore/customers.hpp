@@ -21,6 +21,7 @@ public:
     static void howManyBooksForCustomer();
     static void CustomerWhoPurchasedTheMost();
     static void newCustomers();
+    static void discountForCustomer();
 };
 
 #endif
