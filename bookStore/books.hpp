@@ -27,6 +27,7 @@ public:
     static void OrdersAmount();
     static void PhurchacesAmount();
     static void top10Books();
+    static void incomes();
 };
 
 

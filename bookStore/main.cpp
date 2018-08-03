@@ -62,6 +62,9 @@ int main(int argc, const char * argv[]) {
             case 15:
                 customers::discountForCustomer();
                 break;
+            case 16:
+                books::incomes();
+                break;
             case 17:
                 customers::newCustomers();
                 break;
