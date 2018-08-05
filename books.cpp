@@ -375,9 +375,10 @@ void books::incomes(){
         }
         
         ResultSet *rset3 = pstmt3->executeQuery();
-        ResultSet *rset4 =pstmt4->executeQuery();
+        ResultSet *rset4 = pstmt4->executeQuery();
         
-        if (rset3->first()&&rset4->first()) {
+        
+        if (rset3->first()||rset4->first()) {
             rset3->beforeFirst();
             while (rset3->next()) {
                 sumExpenses+=stoi(rset3->getString("Price"))*stoi(rset3->getString("supplied"));
@@ -386,7 +387,7 @@ void books::incomes(){
             while (rset4->next()) {
                 sumIncomes+= stoi(rset4->getString("Total_Price"));
             }
-            cout << sumExpenses-sumIncomes;
+            cout << sumIncomes-sumExpenses;
         }
         
         else {
@@ -395,6 +396,10 @@ void books::incomes(){
         
         cout << "\n";
         
+        pstmt1 = con->prepareStatement("drop table yearExpenses");
+        pstmt2 = con->prepareStatement("drop table yearIncomes");
+        pstmt1->executeQuery();
+        pstmt2->executeQuery();
         delete con;
         delete pstmt1;
         delete pstmt2;

@@ -74,6 +74,12 @@ void suppliers::searchingSupplierByBookName(){
         else
             cout << "\nInvalid Book Name\n" << endl;
         
+        pstmt1 = con->prepareStatement("drop table temp1");
+        pstmt2 = con->prepareStatement("drop table temp2");
+        pstmt1->executeQuery();
+        pstmt2->executeQuery();
+        
+        
         delete con;
         delete pstmt1;
         delete pstmt2;

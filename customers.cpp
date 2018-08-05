@@ -69,6 +69,9 @@ void customers:: howManyBooksForCustomer(){
         else
             cout << "\nInvalid Input Or no orders for specific Customer\n" << endl;
         
+        pstmt1 = con->prepareStatement("drop table temp3");
+        pstmt1->executeQuery();
+        
         delete con;
         delete pstmt1;
         delete pstmt;
@@ -100,6 +103,9 @@ void customers:: CustomerWhoPurchasedTheMost(){
         }
         else
             cout << "\nInvalid Input Or No Customers Found That Ordered Books After The Specific Date\n" << endl;
+        
+        pstmt1 = con->prepareStatement("drop table temp3");
+        pstmt1->executeQuery();
         
         delete con;
         delete pstmt1;
