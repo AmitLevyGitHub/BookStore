@@ -400,24 +400,25 @@ void Database::addSuppliment(){
 }
 
 void Database:: printMenu(){
-    cout << "- In order to watch inventory, press 1" << endl
-    << "- In order to watch Open Orders, press 2" << endl
-    << "- In order to watch Customer List, press 3" << endl
-    << "- In order to watch Supplier List, press 4" << endl
-    << "- In order to watch Orders By Date, press 5" << endl
-    << "- In order to watch All the Discounted Books, press 6" << endl
-    << "- In order to search for specific Book, press 7" << endl
-    << "- In order to search for suppliers of specific, press 8" << endl
-    << "- In order to check how many copys of a specific book were sold since a specific date, press 9" << endl
-    << "- In order to check how many Books a specific Customer Purchased since a specific date, press 10" << endl
-    << "- In order to check how Who is the Customer who Purchased the most since a specific date, press 11" << endl
-    << "- In order to watch details of the Supplier who supplied the most books since a specific date, press 12" << endl
-    << "- In order to check Amount of Orders for specific range of dates, press 13" << endl
-    << "- In order to check Amount of Purchases for specific range of dates, press 14" << endl
-    << "- In order to check what is the discount a customer got since a specific date, press 15" << endl
-    << "- In order to check Amount of new Customerss for specific range of dates, press 17" << endl
-    << "- In order to check purchases from specific Supplier in a specific range of dates, press 18" << endl
-    << "- In order to check Sales for specific employee in a specific range of dates, press 19" << endl
-    << "- In order to watch top 10 Books in a specific range of dates, press 20" << endl
-    << "- For Exit, press 99" << endl;
+    cout << "- press 1 In order to watch the inventory" << endl
+    << "- press 2 In order to watch Open Orders" << endl
+    << "- press 3 In order to watch Customers List" << endl
+    << "- press 4 In order to watch Suppliers List" << endl
+    << "- press 5 In order to watch Orders By Date" << endl
+    << "- press 6 In order to watch All the Discounted Books" << endl
+    << "- press 7 In order to search for specific Book" << endl
+    << "- press 8 In order to search for suppliers of specific" << endl
+    << "- press 9 In order to check how many copies of a specific book were sold since a specific date" << endl
+    << "- press 10 In order to check how many Books a specific Customer Purchased since a specific date" << endl
+    << "- press 11 In order to check Who is the Customer who Purchased the most since a specific date" << endl
+    << "- press 12 In order to watch the details of the Supplier who supplied the most books since a specific date" << endl
+    << "- press 13 In order to check the Amount of Orders for specific range of dates" << endl
+    << "- press 14 In order to check the Amount of Purchases for specific range of dates" << endl
+    << "- press 15 In order to check what is the discount a customer got since a specific date" << endl
+    << "- press 16 In order to check Store Incomes for specific quarter in a specific year" << endl
+    << "- press 17 In order to check The Amount of new Customers for specific range of dates" << endl
+    << "- press 18 In order to check purchases from specific Supplier in a specific range of dates" << endl
+    << "- press 19 In order to check Sales for specific employee in a specific range of dates" << endl
+    << "- press 20 In order to watch top 10 Books in a specific range of dates" << endl
+    << "- press 99 For Exit" << endl;
 }

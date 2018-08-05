@@ -48,8 +48,10 @@ int main(int argc, const char * argv[]) {
                 break;
             case 10:
                 customers::howManyBooksForCustomer();
+                break;
             case 11:
                 customers::CustomerWhoPurchasedTheMost();
+                break;
             case 12:
                 suppliers::topSupllier();
                 break;

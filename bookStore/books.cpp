@@ -21,11 +21,19 @@ void books::inventory () {
     if (con) {
         Statement *stmt = con->createStatement();
         ResultSet *rset = stmt->executeQuery("SELECT Book_Name,Category,Book_Language,Author,Publishing_Year FROM Books INNER JOIN TheStoreBooks ON TheStoreBooks.ISBN=Books.ISBN;");
-        cout << "Book Name" << setw(25) << "Category" << setw(11) << "Language" << setw(10) << "Autor" << setw(25) << "Publishing Year" << endl;
+        cout << left << setw(40) << "\nBook Name";
+        cout << left << setw(40) << "Category";
+        cout << left << setw(40) << "Language";
+        cout << left <<  setw(40) << "Autor";
+        cout << left << setw(40) << "Publishing Year" << endl;
+        cout << "---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        
         while (rset->next()){
-            cout << setw(26) << left << rset->getString(1) << setw(11) << left <<
-            rset->getString(2) << setw(15) << left << rset->getString(3) << setw(15) << left  << rset->getString(4) << setw(30) << left <<
-            rset->getString(5) << endl;
+            cout << left << setw(41) << rset->getString(1);
+            cout << left << setw(40) << rset->getString(2);
+            cout << left << setw(35) << rset->getString(3);
+            cout << left << setw(46) << rset->getString(4);
+            cout << left << setw(70) << rset->getString(5) << endl;
         }
         cout << "\n";
         delete con;
@@ -39,13 +47,24 @@ void books::orders(){
     if (con) {
         Statement *stmt = con->createStatement();
         ResultSet *rset = stmt->executeQuery("SELECT * FROM Orders WHERE Order_Status != 'cancelled' && Order_Status != 'Purchased';");
-        cout << "\tOrder Number\t\t\t" << "Customer ID\t\t\t" << "Employee ID\t\t\t" << "Order Status\t\t\t" << "Order Date\t\t\t" << "Total Price\t\t\t" << endl;
+        
+        cout << left << setw(22) << "\nOrder Number";
+        cout << left << setw(22) << "Customer ID";
+        cout << left << setw(22) << "Employee ID";
+        cout << left << setw(22) << "Order Status";
+        cout << left << setw(22) << "Order Date";
+        cout << left << setw(22) << "Total Price" << endl;
+        cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
         while (rset->next()){
-            cout << "\t" << rset->getInt(1) << "\t" <<
-            rset->getString(2) << "\t" << rset->getString(3) << "\t" << rset->getString(4) << "\t" <<
-            rset->getString(5) << rset->getString(6) << endl;
+            cout.width(5);
+            cout << left << setw(23) << rset->getInt(1);
+            cout << left << setw(22) << rset->getString(2);
+            cout << left << setw(22) << rset->getString(3);
+            cout << left << setw(22) << rset->getString(4);
+            cout << left << setw(23) << rset->getString(5);
+            cout << left << setw(23) << rset->getString(6) << endl;
         }
-        cout << "\n";
+        cout << "\n\n\n";
         delete con;
         delete rset;
         delete stmt;
@@ -56,26 +75,37 @@ void books::ordersByDate(){
     CON;
     if (con) {
     
-    string tmp1, tmp2;
+    string date1, date2;
         
-    PreparedStatement *pstmt = con->prepareStatement("SELECT * FROM orders where order_date >= ? AND order_date <= ?;");
+    PreparedStatement *pstmt = con->prepareStatement("SELECT * FROM Orders where Order_date >= ? AND Order_date <= ?;");
     
     cout << "Please Enter Start Date in the following format- YYYY-MM-DD > ";
     string temp;
     getline(cin, temp);
-    getline(cin, tmp1);
-    pstmt->setString(1, tmp1);
+    getline(cin, date1);
+    pstmt->setString(1, date1);
     cout << "Please Enter End Date in the following format- YYYY-MM-DD > ";
-    getline(cin, tmp2);
-    pstmt->setString(2, tmp2);
+    getline(cin, date2);
+    pstmt->setString(2, date2);
     ResultSet *rset = pstmt->executeQuery();
      
-    if (rset->getRow()){
-            cout << "\n\tOrder Number\t\t\t" << "Customer ID\t\t\t" << "Employee ID\t\t\t" << "Order Status\t\t\t" << "Order Date\t\t\t" << "Total Price\t\t\t" << endl;
+    if (rset->first()){
+        rset->beforeFirst();
+        cout <<  left << setw(25) << "\nOrder Number";
+        cout <<  left << setw(25) << "Customer ID";
+        cout <<  left << setw(25) << "Employee ID";
+        cout <<  left << setw(25) << "Order Status";
+        cout <<  left << setw(25) << "Order Date";
+        cout <<  left << setw(25) << "Total Price" << endl;
+        cout << "----------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        
         while (rset->next()){
-            cout << "\t" << rset->getInt(1) << "\t" <<
-            rset->getString(2) << "\t" << rset->getString(3) << "\t" << rset->getString(4) << "\t" <<
-            rset->getString(5) << "\t" << rset->getString(6) << endl;
+            cout << left << setw(25) <<  rset->getInt(1);
+            cout << left << setw(25) << rset->getString(2);
+            cout << left << setw(25) << rset->getString(3);
+            cout << left << setw(25) << rset->getString(4);
+            cout << left << setw(25) << rset->getString(5);
+            cout << left << setw(25) << rset->getString(6) << endl;
         }
         cout << "\n";
     }
@@ -89,16 +119,27 @@ void books::DiscuntedBooks(){
     if (con) {
         Statement *stmt = con->createStatement();
         ResultSet *rset = stmt->executeQuery("SELECT Book_Name,Category,Book_Language,Author,Publishing_Year,price,Global_Discount FROM Books INNER JOIN TheStoreBooks ON TheStoreBooks.ISBN=Books.ISBN WHERE Global_Discount>0;");
-        cout << "\tBook Name\t\t\t" << "Category\t\t" << "Language\t\t" << "Autor\t\t" << "Publishing Year\t\t" << "Discount\t\t" << "Price After Discount" << endl;
+        cout << left << setw(30) <<  "\nBook Name";
+        cout << left << setw(18) <<  "Category";
+        cout << left << setw(18) <<  "Language";
+        cout << left << setw(30) <<  "Autor";
+        cout << left << setw(24) << "Publishing Year";
+        cout << left << setw(22) << "Discount";
+        cout << left << setw(30) << "Price After Discount" << endl;
+        cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        
         while (rset->next()){
             float dis = stof(rset->getString(7));
             float price = stof(rset->getString(6));
             float priseAfterDis = price-(price*dis/100);
-            cout << "\t" << rset->getString(1) << "\t" <<
-            rset->getString(2) << "\t" << rset->getString(3) << "\t" << rset->getString(4) << "\t" <<
-            rset->getString(5) << "\t" << dis*100 << "%" << "\t" << priseAfterDis << endl;
+            cout << left << setw(30) << rset->getString(1);
+            cout << left << setw(18) << rset->getString(2);
+            cout << left << setw(18) << rset->getString(3);
+            cout << left << setw(30) << rset->getString(4);
+            cout << left << setw(22) << rset->getString(5) << "\t" << dis*100 << "%";
+            cout << right << setw(30) <<priseAfterDis << endl;
         }
-        cout << "\n";
+        cout << "\n\n";
         delete con;
         delete rset;
         delete stmt;
@@ -129,6 +170,10 @@ void books::bookSearching(){
         }
         else
             cout << "\nBook not Exists in Inventory\n" << endl;
+        
+        delete con;
+        delete rset;
+        delete pstmt;
     }
 }
 
@@ -155,6 +200,10 @@ void books::booksSince(){
             cout << "\nThe Book '" << BookName << "' Was Ordered " << rset->rowsCount() << " Times Since " << Date << "\n" << endl;
         else
             cout << "\nBook not Exists in Inventory Or Wasn't Sold since " << Date << "\n" << endl;
+        
+        delete con;
+        delete rset;
+        delete pstmt;
     }
 }
 
@@ -171,7 +220,7 @@ void books::OrdersAmount(){
         getline(cin, temp);
         getline(cin, startDate);
         pstmt->setString(1, startDate);
-        cout << "Please Enter Start Date in the following format- YYYY-MM-DD > ";
+        cout << "Please Enter End Date in the following format- YYYY-MM-DD > ";
         getline(cin, endDate);
         pstmt->setString(2, endDate);
         ResultSet *rset = pstmt->executeQuery();
@@ -181,6 +230,10 @@ void books::OrdersAmount(){
             cout << "\n" << rset->rowsCount() <<  " Orders Between " << startDate << " and " << endDate << "\n" << endl;
         else
             cout << "\nInvalid Input or no orders in this range of dates " << "\n" << endl;
+        
+        delete con;
+        delete rset;
+        delete pstmt;
     }
 }
 
@@ -197,7 +250,7 @@ void books::PhurchacesAmount(){
         getline(cin, temp);
         getline(cin, startDate);
         pstmt->setString(1, startDate);
-        cout << "Please Enter Start Date in the following format- YYYY-MM-DD > ";
+        cout << "Please Enter End Date in the following format- YYYY-MM-DD > ";
         getline(cin, endDate);
         pstmt->setString(2, endDate);
         ResultSet *rset = pstmt->executeQuery();
@@ -207,6 +260,10 @@ void books::PhurchacesAmount(){
             cout << "\n" << rset->rowsCount() <<  " Purchases Between " << startDate << " and " << endDate << "\n" << endl;
         else
             cout << "\nInvalid Input or no orders in this range of dates " << "\n" << endl;
+        
+        delete con;
+        delete rset;
+        delete pstmt;
     }
 }
 
@@ -244,6 +301,10 @@ void books::top10Books(){
         }
         
         cout << "\n";
+        
+        delete con;
+        delete rset;
+        delete pstmt;
     }
 }
 
@@ -333,6 +394,15 @@ void books::incomes(){
         }
         
         cout << "\n";
+        
+        delete con;
+        delete pstmt1;
+        delete pstmt2;
+        delete pstmt3;
+        delete pstmt4;
+        delete rset3;
+        delete rset4;
+        
     }
 }
 

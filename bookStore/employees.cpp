@@ -32,5 +32,9 @@ void employees::totalSales(){
         }
         else
             cout << "\nInvalid Input Or No Sales for " << employeeName << " in this range of dates\n" << endl;
+        
+        delete con;
+        delete pstmt;
+        delete rset;
     }
 }

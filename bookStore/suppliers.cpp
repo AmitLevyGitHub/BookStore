@@ -21,12 +21,19 @@ void suppliers:: SupplierList(){
     if (con) {
         Statement *stmt = con->createStatement();
         ResultSet *rset = stmt->executeQuery("SELECT * FROM Suppliers");
-        cout << "\tID\t\t\t" << "Name\t\t\t" << "Incomes From Store\t\t" << "Added To Ststem Date\t\t\t" << endl;
+        cout << left << setw(24) << "\nID";
+        cout << left << setw(28)  << "Name";
+        cout << left << setw(28)  << "Incomes From Store";
+        cout << left << setw(28)  << "Added To Ststem Date" << endl;
+        cout << "----------------------------------------------------------------------------------------------------" << endl;
+        
         while (rset->next()){
-            cout << "\t" << rset->getString(1) << "\t" <<
-            rset->getString(2) << "\t" << rset->getString(3) << "\t\t\t" << rset->getString(4) << endl;
+            cout << left << setw(22) << rset->getString(1);
+            cout << left << setw(32) << rset->getString(2);
+            cout << left << setw(28) << rset->getString(3);
+            cout << left << setw(28) << rset->getString(4) << endl;
         }
-        cout << "\n";
+        cout << "\n\n";
         delete con;
         delete rset;
         delete stmt;
@@ -67,6 +74,12 @@ void suppliers::searchingSupplierByBookName(){
         else
             cout << "\nInvalid Book Name\n" << endl;
         
+        delete con;
+        delete pstmt1;
+        delete pstmt2;
+        delete pstmt;
+        delete rset;
+        
     }
 }
 
@@ -96,6 +109,10 @@ void suppliers::topSupllier(){
         << rset->getString("supplied") << " Books" << endl;
         
         cout << "\n";
+        
+        delete con;
+        delete pstmt;
+        delete rset;
     }
 }
 
@@ -117,6 +134,7 @@ void suppliers::totalOrders(){
         pstmt->setString(2, startDate);
         cout << "Please Enter End Date in the following format- YYYY-MM-DD > ";
         getline(cin, endDate);
+        cout << endl;
         pstmt->setString(3, endDate);
         
         ResultSet *rset = pstmt->executeQuery();
@@ -131,6 +149,10 @@ void suppliers::totalOrders(){
         rset->getString("Incomes_From_Store") << endl;
         
         cout << "\n";
+        
+        delete con;
+        delete pstmt;
+        delete rset;
     }
 }
 

@@ -21,10 +21,16 @@ void customers:: customerList(){
     if (con) {
         Statement *stmt = con->createStatement();
         ResultSet *rset = stmt->executeQuery("SELECT * FROM Customers");
-        cout << "\tID\t\t\t" << "Name\t\t\t" << "Revenues From Customer\t\t" << "Joining Date\t\t\t" << endl;
+        cout << left << setw(18) << "\nID";
+        cout << left << setw(22) << "Name";
+        cout << left << setw(32) << "Revenues From Customer";
+        cout << left << setw(26) << "Joining Date" << endl;
+        cout << "---------------------------------------------------------------------------------------" << endl;
         while (rset->next()){
-            cout << "\t" << rset->getString(1) << "\t" <<
-            rset->getString(2) << "\t" << rset->getString(3) << "\t\t\t" << rset->getString(4) << endl;
+            cout << left << setw(16) << rset->getString(1);
+            cout << left << setw(24) << rset->getString(2);
+            cout << right << setw(12) << rset->getString(3);
+            cout << right << setw(26) << rset->getString(4) << endl;
         }
         cout << "\n";
         delete con;
@@ -62,6 +68,11 @@ void customers:: howManyBooksForCustomer(){
         }
         else
             cout << "\nInvalid Input Or no orders for specific Customer\n" << endl;
+        
+        delete con;
+        delete pstmt1;
+        delete pstmt;
+        delete rset;
     }
 }
 
@@ -89,6 +100,10 @@ void customers:: CustomerWhoPurchasedTheMost(){
         }
         else
             cout << "\nInvalid Input Or No Customers Found That Ordered Books After The Specific Date\n" << endl;
+        
+        delete con;
+        delete pstmt1;
+        delete rset;
     }
 }
 
@@ -109,10 +124,16 @@ void customers::newCustomers(){
         ResultSet *rset = pstmt->executeQuery();
         
         if (rset->first()){
+            rset->beforeFirst();
             cout << "\n" << rset->rowsCount() << " Customers Joind Since " << Date << "\n" << endl;
+            
         }
         else
             cout << "\nInvalid Input Or No Customers Joined Since " << Date << "\n" << endl;
+        
+        delete con;
+        delete pstmt;
+        delete rset;
     }
 }
 
@@ -144,6 +165,10 @@ void customers::discountForCustomer(){
         }
         else
             cout << "\nInvalid Input Or No Discount for Customer Since " << Date << "\n" << endl;
+        
+        delete con;
+        delete pstmt;
+        delete rset;
     }
 }
 
