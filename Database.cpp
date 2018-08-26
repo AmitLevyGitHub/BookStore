@@ -113,7 +113,7 @@ Database::Database() : driver(get_driver_instance()) {
                           "PRIMARY KEY (Customer_ID,Phone_number), "
                           "FOREIGN KEY (Customer_ID) REFERENCES Customers(Customer_ID) "
                           ")");
-            addBooksToWorld();      // YANIV IS THE KING HE IS AMAZING YES YES YES
+            addBooksToWorld();     
             addBooksToStore();
             addCustomers();
             addCustomersPhones();
